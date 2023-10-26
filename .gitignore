@@ -1,4 +1,5 @@
 *.vscode/
 *.exercism/
 *.out
-*/HELP.md
+!README.md
+*.md
