@@ -1,0 +1,4 @@
+*/.vscode
+*/.exercism
+*.out
+*/HELP.md
