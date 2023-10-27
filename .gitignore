@@ -4,3 +4,9 @@
 **HELP.md
 **HINTS.md
 **.editorconfig
+**LICENSE
+**.npmrc
+*/**.gitignore
+**.eslintrc
+**package.json
+**babel.config.js
