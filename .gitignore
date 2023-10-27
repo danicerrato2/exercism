@@ -1,5 +1,6 @@
-*.vscode/
-*.exercism/
-*.out
-!*README.md
-*.md
+**.vscode/
+**.exercism/
+**.out
+**HELP.md
+**HINTS.md
+**.editorconfig
