@@ -6,7 +6,8 @@
 **.editorconfig
 **LICENSE
 **.npmrc
-./**/.gitignore
+**.gitignore
+!/.gitignore
 **.eslintrc
 **package.json
 **babel.config.js
