@@ -1,11 +1,5 @@
 **.vscode/
-**.exercism/
 **.out
-**HELP.md
-**HINTS.md
-**.editorconfig
-**LICENSE
-**.npmrc
-**.eslintrc
-**package.json
-**babel.config.js
+**node_modules
+**bin/
+**obj/

@@ -12,7 +12,7 @@ unsigned int monthDays[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 unsigned int sumDays, toCheck; 
 int upOrDown;
 
-int IsLeapYear(unsigned int year) {
+int IsLapYear(unsigned int year) {
 	return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
 }
 
@@ -20,7 +20,7 @@ void moveToYear(unsigned int year, unsigned int *date, unsigned int *dateWeekday
 	upOrDown = year < date[2] ? -1 : 1;
 	while (date[2] != year) {
 		toCheck = upOrDown == -1 ? date[2] : date[2] + 1;
-		sumDays = IsLeapYear(toCheck) ? 366 % 7 : 365 % 7;
+		sumDays = IsLapYear(toCheck) ? 366 % 7 : 365 % 7;
 		*dateWeekday = (*dateWeekday + 7 + upOrDown * sumDays) % 7;
 		date[2] += upOrDown; 
 	}
@@ -30,7 +30,7 @@ void moveToMonth(unsigned int month, unsigned int *date, unsigned int *dateWeekd
 	upOrDown = month < date[1] ? -1 : 1;
 	while (date[1] != month) {
 		toCheck = upOrDown == -1 ? date[1] - 1 : date[1];
-		sumDays = toCheck == 2 && IsLeapYear(date[2]) ? 29 % 7 : monthDays[toCheck - 1] % 7;
+		sumDays = toCheck == 2 && IsLapYear(date[2]) ? 29 % 7 : monthDays[toCheck - 1] % 7;
 		*dateWeekday = (*dateWeekday + 7 + upOrDown * sumDays) % 7;
 		date[1] += upOrDown;
 	}
@@ -45,7 +45,7 @@ void moveToWeekday(const char *day_of_week, unsigned int *date, unsigned int *da
 
 void moveToWeek(const char *week, unsigned int *date) {
 	int i = 0;
-	unsigned int actualMonthDays = date[1] == 2 && IsLeapYear(date[2]) ? 29 : monthDays[date[1] - 1];
+	unsigned int actualMonthDays = date[1] == 2 && IsLapYear(date[2]) ? 29 : monthDays[date[1] - 1];
 
 	while (strcmp(week, descriptors[i++]) != 0 
 			&& !(date[0] >= TEENTH_MIN && date[0] <= TEENTH_MAX && strcmp(week, descriptors[5]) == 0)
