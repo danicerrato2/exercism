@@ -19,7 +19,7 @@ def download_exercise(args : argparse.Namespace):
     
     _, error = execute_command(command)
     
-    print(error[:-1] if error.startswith("Error") else "Exercise downloaded successfully")
+    print(error[:-1] if error.startswith("Error") else f"Exercise '{args.exercise[0]}' downloaded successfully")
         
 def test_c(exercise : str = None):    
     if exercise != None:        
@@ -91,21 +91,30 @@ def test(args : argparse.Namespace):
     else:
         print(f"Error: Track '{args.track[0]}' not started yet or not existing\n" + 
               f"These are the active tracks: {TRACKS}\n")
+      
+def submit_exercise(args : argparse.Namespace):
+    if not os.path.exists(args.track[0]):
+        print(f"The track '{args.track[0]}' doesn't exist")
+    elif not os.path.exists(f"{args.track[0]}/{args.exercise[0]}"):
+        print(f"The exercise '{args.exercise[0]}' doesn't exist or hasn't been downloaded")
+    else:
+        _, error = execute_command(f"cd {args.track[0]}/{args.exercise[0]}; exercism.exe submit")
+        print(error[:-1] if error.startswith("Error") else f"Exercise '{args.exercise[0]}' submitted successfully")
         
 def add_exercism_arguments(parser : argparse.ArgumentParser):
-    is_download = parser.description == "Download"
+    is_required = parser.description == "Download" or parser.description == "Submit"
     
     parser.add_argument("-t", "--track",
-                       required=is_download,
+                       required=is_required,
                        nargs=1,
                        type=str,
                        help="Include the name of the track")
     parser.add_argument("-e", "--exercise",
-                        required=is_download,
+                        required=is_required,
                         nargs=1,
                         type=str,
                         help="Include the name of the exercise")
-    if is_download:
+    if is_required:
         parser.add_argument("-f", "--force",
                         required=False,
                         action='store_true',
@@ -122,6 +131,10 @@ def init_parser() -> argparse.ArgumentParser:
     tests = subparsers.add_parser("tests", description="Tests")
     add_exercism_arguments(tests)
     tests.set_defaults(func=test)
+    
+    submit = subparsers.add_parser("submit", description="Submit")
+    add_exercism_arguments(submit)
+    submit.set_defaults(func=submit_exercise)
     
     return parser
 
