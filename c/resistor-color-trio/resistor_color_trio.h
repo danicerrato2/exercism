@@ -5,7 +5,7 @@
 #include <math.h>
 
 typedef enum {
-    OHMS, KILOOHMS, 
+    OHMS, KILOOHMS, MEGAOHMS, GIGAOHMS
 } resistor_unit_t;
 
 typedef enum {
