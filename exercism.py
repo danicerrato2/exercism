@@ -13,7 +13,7 @@ def execute_command(command : str) -> (str, str):
     return (output, error)
 
 def download_exercise(args : argparse.Namespace):
-    command = f"exercism.exe download --track={args.track[0]} --exercise={args.exercise[0]}"
+    command = f"exercism download --track={args.track[0]} --exercise={args.exercise[0]}"
     if args.force:
         command += " --force"
     
@@ -98,7 +98,7 @@ def submit_exercise(args : argparse.Namespace):
     elif not os.path.exists(f"{args.track[0]}/{args.exercise[0]}"):
         print(f"The exercise '{args.exercise[0]}' doesn't exist or hasn't been downloaded")
     else:
-        _, error = execute_command(f"cd {args.track[0]}/{args.exercise[0]}; exercism.exe submit")
+        _, error = execute_command(f"cd {args.track[0]}/{args.exercise[0]}; exercism submit")
         print(error[:-1] if error.startswith("Error") else f"Exercise '{args.exercise[0]}' submitted successfully")
         
 def add_exercism_arguments(parser : argparse.ArgumentParser):
