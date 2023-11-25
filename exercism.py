@@ -4,6 +4,7 @@ import subprocess
 import sys
 
 TRACKS = ['c', 'csharp', 'javascript']
+executable = ""
 
 def execute_command(command : str) -> (str, str):
     result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -12,8 +13,8 @@ def execute_command(command : str) -> (str, str):
     
     return (output, error)
 
-def download_exercise(args : argparse.Namespace):
-    command = f"exercism download --track={args.track[0]} --exercise={args.exercise[0]}"
+def download_exercise(args : argparse.Namespace):    
+    command = f"{executable} download --track={args.track[0]} --exercise={args.exercise[0]}"
     if args.force:
         command += " --force"
     
@@ -98,7 +99,7 @@ def submit_exercise(args : argparse.Namespace):
     elif not os.path.exists(f"{args.track[0]}/{args.exercise[0]}"):
         print(f"The exercise '{args.exercise[0]}' doesn't exist or hasn't been downloaded")
     else:
-        _, error = execute_command(f"cd {args.track[0]}/{args.exercise[0]}; exercism submit")
+        _, error = execute_command(f"cd {args.track[0]}/{args.exercise[0]}; {executable} submit")
         print(error[:-1] if error.startswith("Error") else f"Exercise '{args.exercise[0]}' submitted successfully")
         
 def add_exercism_arguments(parser : argparse.ArgumentParser):
@@ -139,6 +140,9 @@ def init_parser() -> argparse.ArgumentParser:
     return parser
 
 if __name__ == '__main__':
+    output, _ = execute_command("hostname")
+    executable = "exercism.exe" if output == "TitoCerra-Laptop\n" else "exercism"
+        
     parser = init_parser()
     args = parser.parse_args()
     args.func(args)
